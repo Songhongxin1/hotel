@@ -1,0 +1,197 @@
+<template>
+    <div id="menu">
+        <div class="banner">
+            <img src="../../static/images/banner4.jpg" alt="">
+        </div>
+        <div class="menu-content noselect">
+            <ul class="nav-left">
+                <li class="nav-list" v-for="item in dish_class"><router-link :to="'/restaurant/menu/menulist'+$route.params.restaurant_id+item.id" >{{item.name}}</router-link></li>
+            </ul>
+            <router-view></router-view>
+        </div>
+    </div>
+</template>
+<script type="text/javascript">
+export default{
+    data(){
+        return{
+            dish_class:''
+        }
+    },
+    created(){
+        this.$http.post('http://m.dev.hotel.com/RestaurantReserve/dishClassList').then((res)=>{
+            if(res.data.status == 0){
+                this.dish_class = res.data.data.dish_class
+            }else{
+                alert(res.data.msg)
+            }
+        },(error=>{
+            alert('请求失败，请刷新页面')
+        }))
+    },
+}
+</script>
+<style type="text/css" lang="scss">
+#menu{
+    margin-bottom:1.6rem;
+    width:100%;
+    overflow:hidden;
+    margin-top:.80rem;
+    .banner{
+        width:100%;
+        height:2.10rem;
+        img{
+            width:100%;
+            height:100%;
+        }
+    }
+    .menu-content{
+        position:absolute;
+        top:3rem;
+        left:0;
+        right:0;
+        bottom:1.6rem;
+        width:100%;
+        background:#fff;
+        .nav-left{
+            float:left;
+            height:100%;
+            overflow-y:auto;
+            width:1.86rem;
+            .nav-list{
+                border-bottom:.01rem dashed #626262;
+                height:.79rem;
+                line-height:.79rem;
+                text-align:center;
+                background:#f6f6f6;
+                a{
+                    display:block;
+                    font-size:.28rem;
+                    color:#424242;
+                }
+            }
+        }
+        .menu-box{
+            overflow:hidden;
+            padding-left:.16rem;
+            background:#fff;
+            .menu-list{
+                padding-top:.11rem;
+                padding-bottom:.15rem;
+                .list-left{
+                    width:1.30rem;
+                    height:1.29rem;
+                    float:left;
+                    img{
+                        width:1.30rem;
+                        height:1.29rem;
+                    }
+                }
+                .list-right{
+                    overflow:hidden;
+                    padding-left:.16rem;
+                    .menu-name{
+                        color:#4f4f4f;
+                        font-size:.32rem;
+                        line-height:.40rem;
+                        margin-bottom:.12rem;
+                    }
+                    .new{
+                        width:.72rem;
+                        height:.27rem;
+                        display:block;
+                        border:.01rem dashed #626262;
+                        color:#63d388;
+                        font-size:.18rem;
+                        line-height:.27rem;
+                        text-align:center;
+                        font-weight:bolder;
+                        margin-bottom:.12rem;
+                    }
+                    .bottom-box{
+                        .menu-price{
+                            font-size:.32rem;
+                            color:#464646;
+                            float:left;
+                        }
+                        .menu-num{
+                            float:right;
+                            .reduce{
+                                background:#bfbfbf;
+                                text-align:center;
+                                line-height:.28rem;
+                                display:block;
+                                font-size:.36rem;
+                                width:.35rem;
+                                height:.35rem;
+                                color:#fff;
+                                border-radius:50%;
+                                margin-right:.38rem;
+                                float:left;
+                            }
+                            .num-txt{
+                                display:block;
+                                width:.30rem;
+                                float:left;
+                                color:#4f4f4f;
+                                font-size:.32rem;
+                                margin-right:.23rem;
+                            }
+                            .add{
+                                background:#2cbc5b;
+                                text-align:center;
+                                line-height:.28rem;
+                                display:block;
+                                font-size:.36rem;
+                                width:.35rem;
+                                height:.35rem;
+                                color:#fff;
+                                border-radius:50%;
+                                margin-right:.29rem;
+                                float:right;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .menu-footer{
+        position:fixed;
+        bottom:.77rem;
+        left:0rem;
+        width:100%;
+        height:.83rem;
+        background:#7d7d7d;
+        .iconfont{
+            color:#5ace80;
+            float:left;
+            margin-left:.40rem;
+            margin-top:-.36rem;
+            font-size:.80rem;
+            margin-right:.10rem;
+        }
+        .pay-num{
+            font-size:.58rem;
+            line-height:.83rem;
+            color:#fff;
+        }
+        a{
+            width:2.50rem;
+            height:.83rem;
+            background:#30bb52;
+            color:#fff;
+            font-size:.40rem;
+            line-height:.83rem;
+            text-align:center;
+            position:absolute;
+            right:0;
+            top:0rem;
+            display:block;
+        }
+    }
+    .nav-active{
+        background:#fff!important;
+    }
+}
+</style>
